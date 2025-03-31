@@ -599,7 +599,7 @@ class DiDi:
                                 continue
                             if activity_id == "10010":
                                 fn_print(
-                                    f"用户[{self.user_phone}], ===该券为明天在目的地栏搜"领券"必得1张快车优惠券，不支持自动领取===")
+                                    f"用户[{self.user_phone}], ===该券为明天在目的地栏搜'领券'必得1张快车优惠券，不支持自动领取===")
                                 continue
                             group_id = coupon.get("group_id")
                             coupon_conf_id = coupon.get("coupon_conf_id")
