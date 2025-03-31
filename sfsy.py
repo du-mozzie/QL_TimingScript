@@ -415,7 +415,7 @@ class Sfsy:
                 if exchange_times_limit >= 1:
                     self.goodsNo = goods["goodsNo"]
                     fn_print(f">> 当前选择券号： {self.goodsNo}")
-                    if self.get_coupom():
+                    if await self.get_coupom():
                         fn_print('领取成功生活特权成功')
                         break
         else:
