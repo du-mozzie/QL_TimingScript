@@ -97,13 +97,13 @@ class DiDi:
             fn_print(sign_in_data)
             if sign_in_data["errno"] == 0:
                 subsidy_amount = sign_in_data["data"]["subsidy_state"]["subsidy_amount"]
-                fn_print(f"用户【{0}】, ===今日签到成功，获得{subsidy_amount}福利金🪙🪙🪙===")
+                fn_print(f"用户[{self.user_phone}], ===今日签到成功，获得{subsidy_amount}福利金🪙🪙🪙===")
                 return
             elif sign_in_data["errno"] == 40009:
-                fn_print(f"用户【{0}】, ===今日福利金已签到，无需重复签到！===")
+                fn_print(f"用户[{self.user_phone}], ===今日福利金已签到，无需重复签到！===")
                 return
             else:
-                fn_print(f"用户【{0}】, ===签到失败, {sign_in_data}===")
+                fn_print(f"用户[{self.user_phone}], ===签到失败, {sign_in_data}===")
         else:
             fn_print(f"===签到请求异常, {sign_in_response}===")
 
@@ -158,13 +158,13 @@ class DiDi:
             apply_carve_up_action_data = apply_carve_up_action_response.json()
             if apply_carve_up_action_data.get("errno") == 0:
                 if apply_carve_up_action_data.get("data", {}).get("result"):
-                    fn_print(f"用户【{self.user_phone}】, ===报名明日瓜分福利金成功🎉===")
+                    fn_print(f"用户[{self.user_phone}], ===报名明日瓜分福利金成功🎉===")
                     return
             elif apply_carve_up_action_data.get("errno") == 1003:
-                fn_print(f"用户【{self.user_phone}】, ===今日瓜分福利金已报名，无需重复报名！===")
+                fn_print(f"用户[{self.user_phone}], ===今日瓜分福利金已报名，无需重复报名！===")
                 return
             else:
-                fn_print(f"用户【{self.user_phone}】, ===报名明日瓜分福利金失败, {apply_carve_up_action_data}===")
+                fn_print(f"用户[{self.user_phone}], ===报名明日瓜分福利金失败, {apply_carve_up_action_data}===")
                 return
         else:
             fn_print(f"===报名明日瓜分福利金请求异常, {apply_carve_up_action_response.text}===")
@@ -190,13 +190,13 @@ class DiDi:
             complete_carve_up_action_data = complete_carve_up_action_response.json()
             if complete_carve_up_action_data.get("errno") == 0:
                 if complete_carve_up_action_data.get("data", {}).get("result"):
-                    fn_print(f"用户【{self.user_phone}】, ===完成今日打卡瓜分福利金成功🎉===")
+                    fn_print(f"用户[{self.user_phone}], ===完成今日打卡瓜分福利金成功🎉===")
                     return
             elif complete_carve_up_action_data.get("errno") == 1003:
-                fn_print(f"用户【{self.user_phone}】, ===今日瓜分福利金已完成，无需重复完成！===")
+                fn_print(f"用户[{self.user_phone}], ===今日瓜分福利金已完成，无需重复完成！===")
                 return
             else:
-                fn_print(f"用户【{self.user_phone}】, ===完成今日瓜分福利金失败, {complete_carve_up_action_data}===")
+                fn_print(f"用户[{self.user_phone}], ===完成今日瓜分福利金失败, {complete_carve_up_action_data}===")
                 return
         else:
             fn_print(f"===完成今日瓜分福利金请求异常, {complete_carve_up_action_response.text}===")
@@ -236,17 +236,17 @@ class DiDi:
                 if status != 0:
                     continue
                 batch_id = coupon.get("batch_id")
-                fn_print(f"用户【"{self.user_phone}】, ===开始领取{coupon.get('remark')}{coupon.get('coupon_title')}===")
+                fn_print(f"用户[{self.user_phone}], ===开始领取{coupon.get('remark')}{coupon.get('coupon_title')}===")
                 receive_level_gift_response = await self.client.get(
                     url=f"https://member.xiaojukeji.com/dmember/h5/receiveLevelGift?xbiz=&prod_key=wyc-vip-level&xpsid=&dchn=&xoid=&xenv=passenger&xspm_from=&xpsid_root=&xpsid_from=&xpsid_share=&token={self.token}&batch_id={batch_id}&env={{}}&gift_type=1&city_id={self.city_id}"
                 )
                 if receive_level_gift_response.status_code == 200:
                     receive_level_gift_data = receive_level_gift_response.json()
                     if receive_level_gift_data.get("errno") == 0:
-                        fn_print(f"用户【"{self.user_phone}】, ===领取成功🎉===")
+                        fn_print(f"用户[{self.user_phone}], ===领取成功🎉===")
                         continue
                     else:
-                        fn_print(f"用户【"{self.user_phone}】, ===领取失败, {receive_level_gift_data}===")
+                        fn_print(f"用户[{self.user_phone}], ===领取失败, {receive_level_gift_data}===")
                 else:
                     fn_print(f"===领取周周领券请求异常, {receive_level_gift_response.text}===")
 
@@ -256,7 +256,7 @@ class DiDi:
         :return: 
         """
         if not MONTH_SIGNAL:
-            fn_print(f"用户【"{self.user_phone}】, ===月月领券活动未开启===")
+            fn_print(f"用户[{self.user_phone}], ===月月领券活动未开启===")
             return
         privileges_list = await self.inquire_benefits_details()
         for privilege in privileges_list:
@@ -268,17 +268,17 @@ class DiDi:
                 if status != 0:
                     continue
                 batch_id = coupon.get("batch_id")
-                fn_print(f"用户【"{self.user_phone}】, ===开始领取{coupon.get('remark')}{coupon.get('coupon_title')}===")
+                fn_print(f"用户[{self.user_phone}], ===开始领取{coupon.get('remark')}{coupon.get('coupon_title')}===")
                 receive_level_gift_response = await self.client.get(
                     url=f"https://member.xiaojukeji.com/dmember/h5/receiveLevelGift?xbiz=&prod_key=wyc-vip-level&xpsid=&dchn=&xoid=&xenv=passenger&xspm_from=&xpsid_root=&xpsid_from=&xpsid_share=&token={self.token}&batch_id={batch_id}&env={{}}&gift_type=1&city_id={self.city_id}"
                 )
                 if receive_level_gift_response.status_code == 200:
                     receive_level_gift_data = receive_level_gift_response.json()
                     if receive_level_gift_data.get("errno") == 0:
-                        fn_print(f"用户【"{self.user_phone}】, ===领取成功🎉===")
+                        fn_print(f"用户[{self.user_phone}], ===领取成功🎉===")
                         continue
                     else:
-                        fn_print(f"用户【"{self.user_phone}】, ===领取失败, {receive_level_gift_data}===")
+                        fn_print(f"用户[{self.user_phone}], ===领取失败, {receive_level_gift_data}===")
                 else:
                     fn_print(f"===领取月月领券请求异常, {receive_level_gift_response.text}===")
 
@@ -297,7 +297,7 @@ class DiDi:
                     swell_status = coupon.get('swell_status')  # 0代表不能膨胀，1代表能膨胀,2代表已膨胀、
                     if swell_status == 1:
                         fn_print(
-                            f"用户【"{self.user_phone}】, ===开始膨胀{coupon.get('remark')}{coupon.get('coupon_title')}===")
+                            f"用户[{self.user_phone}], ===开始膨胀{coupon.get('remark')}{coupon.get('coupon_title')}===")
                     batch_id = coupon.get("batch_id")
                     coupon_id = coupon.get("coupon_id")
                     swell_coupon_response = await self.client.post(
@@ -313,12 +313,12 @@ class DiDi:
                         swell_coupon_data = swell_coupon_response.json()
                         if swell_coupon_data.get("errno") == 0:
                             if swell_coupon_data.get("data", {}).get("is_swell"):
-                                fn_print(f"用户【"{self.user_phone}】, ===膨胀成功🎉===")
+                                fn_print(f"用户[{self.user_phone}], ===膨胀成功🎉===")
                                 continue
                             else:
-                                fn_print(f"用户【"{self.user_phone}】, ===膨胀失败, {swell_coupon_data}===")
+                                fn_print(f"用户[{self.user_phone}], ===膨胀失败, {swell_coupon_data}===")
                         else:
-                            fn_print(f"用户【"{self.user_phone}】, ===膨胀失败, {swell_coupon_data}===")
+                            fn_print(f"用户[{self.user_phone}], ===膨胀失败, {swell_coupon_data}===")
                     else:
                         fn_print(f"===膨胀周周领券请求异常, {swell_coupon_response.text}===")
 
@@ -332,10 +332,10 @@ class DiDi:
             if privilege.get('name') == "行程意外险":
                 need_received = privilege.get('need_received')
                 if need_received == 1:  # 0为未领取，1为已领取
-                    fn_print(f"用户【"{self.user_phone}】, ===已经领取过了行程意外险===")
+                    fn_print(f"用户[{self.user_phone}], ===已经领取过了行程意外险===")
                     return
                 elif need_received == 0:
-                    fn_print(f"用户【"{self.user_phone}】, ===开始领取行程意外险===")
+                    fn_print(f"用户[{self.user_phone}], ===开始领取行程意外险===")
                     receive_travel_insurance_response = await self.client.post(
                         url="https://member.xiaojukeji.com/dmember/h5/bindPrivilege",
                         json={"token": self.token, "type": 3}
@@ -343,10 +343,10 @@ class DiDi:
                     if receive_travel_insurance_response.status_code == 200:
                         receive_travel_insurance_data = receive_travel_insurance_response.json()
                         if receive_travel_insurance_data.get("errno") == 0:
-                            fn_print(f"用户【"{self.user_phone}】, ===领取行程意外险成功🎉===")
+                            fn_print(f"用户[{self.user_phone}], ===领取行程意外险成功🎉===")
                         else:
                             fn_print(
-                                f"用户【"{self.user_phone}】, ===领取行程意外险失败, {receive_travel_insurance_data}===")
+                                f"用户[{self.user_phone}], ===领取行程意外险失败, {receive_travel_insurance_data}===")
                     else:
                         fn_print(f"===领取行程意外险请求异常, {receive_travel_insurance_response.text}===")
 
@@ -360,10 +360,10 @@ class DiDi:
             if privilege.get('name') == "周三折上折":
                 need_received = privilege.get('need_received')
                 if need_received == 1:  # 0为未领取，1为已领取
-                    fn_print(f"用户【"{self.user_phone}】, ===已经领取过了周三折上折===")
+                    fn_print(f"用户[{self.user_phone}], ===已经领取过了周三折上折===")
                     return
                 elif need_received == 0:
-                    fn_print(f"用户【"{self.user_phone}】, ===开始领取周三折上折===")
+                    fn_print(f"用户[{self.user_phone}], ===开始领取周三折上折===")
                     receive_memberday_discount_multi_response = await self.client.post(
                         url="https://member.xiaojukeji.com/dmember/h5/receiveMemberDayDiscount",
                         json={"token": self.token, "privilege_type": 1}
@@ -371,11 +371,11 @@ class DiDi:
                     if receive_memberday_discount_multi_response.status_code == 200:
                         receive_memberday_discount_multi_data = receive_memberday_discount_multi_response.json()
                         if receive_memberday_discount_multi_data.get("errno") == 0:
-                            fn_print(f"用户【"{self.user_phone}】, ===领取周三折上折成功🎉===")
+                            fn_print(f"用户[{self.user_phone}], ===领取周三折上折成功🎉===")
                             return
                         else:
                             fn_print(
-                                f"用户【"{self.user_phone}】, ===领取周三折上折失败, {receive_memberday_discount_multi_data}===")
+                                f"用户[{self.user_phone}], ===领取周三折上折失败, {receive_memberday_discount_multi_data}===")
                     else:
                         fn_print(f"===领取周三折上折请求异常, {receive_memberday_discount_multi_response.text}===")
 
@@ -416,11 +416,11 @@ class DiDi:
                     receive_wyc_order_finish_data = receive_wyc_order_finish_response.json()
                     if receive_wyc_order_finish_data.get("errno") == 0:
                         fn_print(
-                            f"用户【"{self.user_phone}】, ===领取气泡奖励完单返福利金成功🎉, 获得{reward_count}福利金！===")
+                            f"用户[{self.user_phone}], ===领取气泡奖励完单返福利金成功🎉, 获得{reward_count}福利金！===")
                         return
                     else:
                         fn_print(
-                            f"用户【"{self.user_phone}】, ===领取气泡奖励完单返福利金失败, {receive_wyc_order_finish_data}===")
+                            f"用户[{self.user_phone}], ===领取气泡奖励完单返福利金失败, {receive_wyc_order_finish_data}===")
                 else:
                     fn_print(f"===领取气泡奖励完单返福利金请求异常, {receive_wyc_order_finish_response.text}===")
 
@@ -439,10 +439,10 @@ class DiDi:
                 current_progress = claim_coupon_check_in_data.get("data").get("current_progress")
                 total_progress = claim_coupon_check_in_data.get("data").get("total_progress")
                 fn_print(
-                    f"用户【"{self.user_phone}】, ===领取天天神券签到成功🎉签到进度：{current_progress}/{total_progress}===")
+                    f"用户[{self.user_phone}], ===领取天天神券签到成功🎉签到进度：{current_progress}/{total_progress}===")
                 return
             else:
-                fn_print(f"用户【"{self.user_phone}】, ===领取天天神券签到失败, {claim_coupon_check_in_data}===")
+                fn_print(f"用户[{self.user_phone}], ===领取天天神券签到失败, {claim_coupon_check_in_data}===")
         else:
             fn_print(f"===领取天天神券签到请求异常, {claim_coupon_check_in_response.text}===")
 
@@ -475,7 +475,7 @@ class DiDi:
                 
                 # 添加数据校验
                 if not get_draw_times_data or 'data' not in get_draw_times_data:
-                    fn_print(f"用户【{self.user_phone}】, ===获取抽奖次数失败: 返回数据为空===")
+                    fn_print(f"用户[{self.user_phone}], ===获取抽奖次数失败: 返回数据为空===")
                     return
                     
                 data = get_draw_times_data.get('data', {})
@@ -487,7 +487,7 @@ class DiDi:
                 act_id = conf.get('ext', {}).get('act_conf', {}).get('act_id')
                 
                 if not act_id:
-                    fn_print(f"用户【{self.user_phone}】, ===获取活动ID失败===")
+                    fn_print(f"用户[{self.user_phone}], ===获取活动ID失败===")
                     return
                     
                 for _ in range(lottery_chance):
@@ -502,19 +502,19 @@ class DiDi:
                     if lucky_draw_data.get("errno") == 0:
                         prize_data = lucky_draw_data.get('data', {}).get('prize_data', [])
                         if prize_data:
-                            fn_print(f"用户【{self.user_phone}】, ===抽奖成功🎉, 获得{prize_data[0].get('name')}===")
+                            fn_print(f"用户[{self.user_phone}], ===抽奖成功🎉, 获得{prize_data[0].get('name')}===")
                         else:
-                            fn_print(f"用户【{self.user_phone}】, ===抽奖成功，但未获得奖品信息===")
+                            fn_print(f"用户[{self.user_phone}], ===抽奖成功，但未获得奖品信息===")
                         await asyncio.sleep(5)
                         continue
                     else:
-                        fn_print(f"用户【{self.user_phone}】, ===天天神券抽奖失败, {lucky_draw_data}===")
+                        fn_print(f"用户[{self.user_phone}], ===天天神券抽奖失败, {lucky_draw_data}===")
                         return
             else:
                 fn_print(f"===天天神券获取抽奖次数请求异常, {get_draw_times_response.text}===")
             
         except Exception as e:
-            fn_print(f"用户【{self.user_phone}】, ===天天神券抽奖出现异常: {str(e)}===")
+            fn_print(f"用户[{self.user_phone}], ===天天神券抽奖出现异常: {str(e)}===")
 
     async def run_scratch(self):
         """
@@ -522,22 +522,22 @@ class DiDi:
         :return: 
         """
         if await self.get_carve_up_action_id():
-            fn_print(f"用户【"{self.user_phone}】, ===开始完成今日瓜分活动===")
+            fn_print(f"用户[{self.user_phone}], ===开始完成今日瓜分活动===")
             if self.status_today == 2:
                 await self.complete_carve_up_action()
             elif self.status_today == 3:
-                fn_print(f"用户【"{self.user_phone}】, ===今日瓜分活动已完成，无需重复完成！===")
+                fn_print(f"用户[{self.user_phone}], ===今日瓜分活动已完成，无需重复完成！===")
             elif self.status_today == 4:
-                fn_print(f"用户【"{self.user_phone}】, ===今日已领取瓜分活动奖励！===")
+                fn_print(f"用户[{self.user_phone}], ===今日已领取瓜分活动奖励！===")
             else:
-                fn_print(f"用户【"{self.user_phone}】, ===今日瓜分活动完成失败！肯昨日未报名！===")
-            fn_print(f"用户【"{self.user_phone}】, ===开始报名明日瓜分活动===")
+                fn_print(f"用户[{self.user_phone}], ===今日瓜分活动完成失败！肯昨日未报名！===")
+            fn_print(f"用户[{self.user_phone}], ===开始报名明日瓜分活动===")
             if self.status_tomorrow == 1:
                 await self.apply_carve_up_action()
             elif self.status_tomorrow == 2:
-                fn_print(f"用户【"{self.user_phone}】, ===明日瓜分活动已报名，无需重复报名！===")
+                fn_print(f"用户[{self.user_phone}], ===明日瓜分活动已报名，无需重复报名！===")
             else:
-                fn_print(f"用户【"{self.user_phone}】, ===明日瓜分活动报名失败！===")
+                fn_print(f"用户[{self.user_phone}], ===明日瓜分活动报名失败！===")
 
     async def today_pick(self):
         """
@@ -578,7 +578,7 @@ class DiDi:
             activity_list = get_batch_config_data.get("data").get("conf")
             for activity in activity_list:
                 if activity.get("dchn") == "gL3E8qZ":
-                    fn_print(f"用户【"{self.user_phone}】, ===开始领取每日精选===")
+                    fn_print(f"用户[{self.user_phone}], ===开始领取每日精选===")
                     coupons_list = activity.get("strategy_data").get("data").get("daily_coupon").get("coupons")
                     coupons_status_name_dict = {
                         '1': '可领取',
@@ -595,11 +595,11 @@ class DiDi:
                             fn_print(f"===开始领取券：{coupons_name}===")
                             activity_id = coupon.get("activity_id")
                             if coupons_name == "打车5元券":
-                                fn_print(f"用户【{self.user_phone}】, ===【打车5元券】为分享助力才能领券，不支持自动领券===")
+                                fn_print(f"用户[{self.user_phone}], ===【打车5元券】为分享助力才能领券，不支持自动领券===")
                                 continue
                             if activity_id == "10010":
                                 fn_print(
-                                    f"用户【{self.user_phone}】, ===该券为明天在目的地栏搜"领券"必得1张快车优惠券，不支持自动领取===")
+                                    f"用户[{self.user_phone}], ===该券为明天在目的地栏搜"领券"必得1张快车优惠券，不支持自动领取===")
                                 continue
                             group_id = coupon.get("group_id")
                             coupon_conf_id = coupon.get("coupon_conf_id")
@@ -616,14 +616,14 @@ class DiDi:
                             )
                             bind_coupon_data = bind_coupon_response.json()
                             if bind_coupon_data.get("errno") == 0:
-                                fn_print(f"用户【{self.user_phone}】, ===领取成功🎉===")
+                                fn_print(f"用户[{self.user_phone}], ===领取成功🎉===")
                                 await asyncio.sleep(0.5)
                                 continue
                             else:
-                                fn_print(f"用户【{self.user_phone}】, ===领取失败，{bind_coupon_data}===")
+                                fn_print(f"用户[{self.user_phone}], ===领取失败，{bind_coupon_data}===")
                                 return
                 if activity.get("dchn") == "kkXgpzO":
-                    fn_print(f"用户【"{self.user_phone}】, ===开始领取限时抢===")
+                    fn_print(f"用户[{self.user_phone}], ===开始领取限时抢===")
                     seckill_list = activity.get("strategy_data").get("data").get("seckill")  # 秒杀列表
                     seckill_status_name_dict = {
                         '1': '正在热抢',
@@ -665,18 +665,18 @@ class DiDi:
                                     )
                                     bind_coupon_data = bind_coupon_response.json()
                                     if bind_coupon_data.get("errno") == 0:
-                                        fn_print(f"用户【{self.user_phone}】, ===领取成功🎉===")
+                                        fn_print(f"用户[{self.user_phone}], ===领取成功🎉===")
                                         await asyncio.sleep(0.5)
                                         continue
                                     else:
-                                        fn_print(f"用户【{self.user_phone}】, ===领取失败，{bind_coupon_data}===")
+                                        fn_print(f"用户[{self.user_phone}], ===领取失败，{bind_coupon_data}===")
                                         return
         else:
             fn_print(f"===每日精选请求异常， {get_batch_config_response.text}===")
 
     async def run(self):
         await self.get_user_info()
-        fn_print(f"用户【{self.user_phone}】, ===当前福利金数量为：{await self.get_welfare_payments()}===")
+        fn_print(f"用户[{self.user_phone}], ===当前福利金数量为：{await self.get_welfare_payments()}===")
         task = [
             self.today_pick(),
             self.sign_in(),
@@ -691,7 +691,7 @@ class DiDi:
             self.claim_coupon_lottery()
         ]
         await asyncio.gather(*task)
-        fn_print(f"用户【{self.user_phone}】, ===当前福利金数量为：{await self.get_welfare_payments()}===")
+        fn_print(f"用户[{self.user_phone}], ===当前福利金数量为：{await self.get_welfare_payments()}===")
 
 
 async def main():
