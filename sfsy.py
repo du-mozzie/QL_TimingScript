@@ -412,7 +412,8 @@ class Sfsy:
             goods_list = data["obj"][0]["goodsList"]
             for goods in goods_list:
                 exchange_times_limit = goods["exchangeTimesLimit"]
-                if exchange_times_limit >= 1:
+                currentStore = goods["currentStore"]
+                if exchange_times_limit >= 1 and currentStore >= 1:
                     self.goodsNo = goods["goodsNo"]
                     fn_print(f">> 当前选择券号： {self.goodsNo}")
                     if await self.get_coupom():
